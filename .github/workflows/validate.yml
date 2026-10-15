@@ -14,6 +14,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -40,6 +41,12 @@ jobs:
         run: bun install --frozen-lockfile
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up incident tools
+        run: uv sync --frozen --project services/incident-tools
+
+      - name: Initialize incident workspace
+        run: bun run incident:setup
 
       - name: Run validation suite
         run: bun run validate:ci
