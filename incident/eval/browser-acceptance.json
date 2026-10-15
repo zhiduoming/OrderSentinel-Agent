@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-03",
+  "provider": "DeepSeek official",
+  "model": "deepseek-flash",
+  "reports": [
+    {
+      "case_id": "INC-001",
+      "investigation_id": "3fe115686b6845db85ba5e101e2d53a4",
+      "report_id": "890df475d9c746f9a2266942c4549752"
+    },
+    {
+      "case_id": "INC-002",
+      "investigation_id": "a2ba10085fad4f6bbb2ff2dfcbb31790",
+      "report_id": "f873b17d22874fea911bd5ea3bf5228a"
+    },
+    {
+      "case_id": "INC-003",
+      "investigation_id": "5cfc6a679040492f9eade6157b431080",
+      "report_id": "b78ce36bb1434053a3efc9c6d7606688"
+    },
+    {
+      "case_id": "INC-001",
+      "investigation_id": "62ac2a2a50a143ed86175b0cae8eb212",
+      "report_id": "3bc1e6e936de43f29b9a462b4f5971d7"
+    }
+  ],
+  "browser_validation": {
+    "login": true,
+    "source_skill_loading": true,
+    "case_launcher": true,
+    "raw_evidence_expansion": true,
+    "approve_local_simulation": true,
+    "reject_no_execution": true,
+    "diagnostic_not_recovery": true,
+    "desktop_mobile_visual_inspection": true
+  },
+  "decisions": [
+    {
+      "case_id": "INC-001",
+      "proposal_id": "7a9c96cb84ee4222acba309ff35331e0",
+      "status": "approved",
+      "verification": "improved",
+      "recovered": true
+    },
+    {
+      "case_id": "INC-002",
+      "proposal_id": "b43bc542e79a4d309f795f7c783d67c7",
+      "status": "rejected",
+      "verification": null,
+      "recovered": null
+    },
+    {
+      "case_id": "INC-003",
+      "proposal_id": "b4b00590ce224bdfb00cb48d36733cb5",
+      "status": "approved",
+      "verification": "diagnostic_task_created",
+      "recovered": false
+    }
+  ],
+  "note": "Browser actions performed by development automation for acceptance; not Chen production approval. All cases and action outcomes synthetic."
+}

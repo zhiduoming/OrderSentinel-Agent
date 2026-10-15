@@ -1,0 +1,52 @@
+{
+  "evaluated_at": "2026-10-03T10:50:06.160472+00:00",
+  "data_mode": "synthetic",
+  "scope": "One latest saved report per case; structural checks plus manual causal review, not a benchmark accuracy estimate",
+  "results": [
+    {
+      "case_id": "INC-001",
+      "report_id": "3858f4e6099c41648a773fb3b1c96a98",
+      "investigation_id": "999e6d404faa43208af59db85a0357fd",
+      "status": "structural_checks_passed",
+      "checks": {
+        "expected_verdict": true,
+        "required_primary_support": true,
+        "gaps_when_insufficient": true
+      },
+      "missing_support": [],
+      "summary": "当前证据更支持连接池配置回归：v2.4.1 将 maximumPoolSize 从审批值 30 降至 5，导致连接池饱和、请求排队超时。数据库本身运行正常，排除 DB 侧瓶颈。",
+      "expected_cause": "连接池上限降低导致连接获取超时",
+      "manual_counter_check": "数据库指标正常，不应直接套用历史数据库饱和案例"
+    },
+    {
+      "case_id": "INC-002",
+      "report_id": "f873b17d22874fea911bd5ea3bf5228a",
+      "investigation_id": "a2ba10085fad4f6bbb2ff2dfcbb31790",
+      "status": "structural_checks_passed",
+      "checks": {
+        "expected_verdict": true,
+        "required_primary_support": true,
+        "gaps_when_insufficient": true
+      },
+      "missing_support": [],
+      "summary": "当前证据更支持 inventory-service 消费并发被下调（consumer_concurrency 16→2）导致任务积压（queue_depth 1100），使 inventory.reserve 超时，从而拖慢订单提交接口。order-service v2.4.2 发布仅改动日志格式（text→json），且 v2.4.1 与 v2.4.2 的 p95 几乎相同（5100ms vs 5200ms），更像时间相关而非故障原因。",
+      "expected_cause": "库存服务并发配置下降导致积压和下游超时",
+      "manual_counter_check": "新旧订单版本均异常，订单日志格式发布不能直接被判为根因"
+    },
+    {
+      "case_id": "INC-003",
+      "report_id": "b78ce36bb1434053a3efc9c6d7606688",
+      "investigation_id": "5cfc6a679040492f9eade6157b431080",
+      "status": "structural_checks_passed",
+      "checks": {
+        "expected_verdict": true,
+        "required_primary_support": true,
+        "gaps_when_insufficient": true
+      },
+      "missing_support": [],
+      "summary": "order-service 出现偶发超时（16:00–16:05 窗口 p95≈3900ms、错误率≈8%），但关键诊断数据缺失：日志查询服务超时不可用、当前窗口无链路样本。可用的部署记录仅为一处日志格式变更（text→json，且发生在告警前约 7 小时），与超时无直接因果，属相关性而非原因；历史线索提示数据库 CPU 饱和，但明确说明当前无数据库指标、无法确认。现有证据只能描述症状，不足以确定根因。",
+      "expected_cause": null,
+      "manual_counter_check": "日志不可用、链路缺失，不应强行确认根因"
+    }
+  ]
+}

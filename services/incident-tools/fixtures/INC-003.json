@@ -1,0 +1,63 @@
+{
+  "case_id": "INC-003",
+  "title": "订单请求偶发超时，部分观测数据不可用",
+  "service": "order-service",
+  "environment": "demo",
+  "alert": {
+    "started_at": "2026-09-30T16:00:00+08:00",
+    "description": "订单请求偶发超时，部分观测数据不可用",
+    "severity": "P1"
+  },
+  "data_mode": "synthetic",
+  "metrics": [
+    {
+      "window": "16:00–16:05",
+      "p95_ms": 3900,
+      "error_rate": 0.08,
+      "request_volume_change_percent": 0,
+      "evidence_id": "INC-003:metrics:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-30T16:00:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "logs": [],
+  "traces": [],
+  "deployments": [
+    {
+      "observed_at": "2026-09-30T09:00:00+08:00",
+      "version": "v2.4.2",
+      "change": {
+        "log_format": {
+          "before": "text",
+          "after": "json"
+        }
+      },
+      "evidence_id": "INC-003:deployments:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "deployments",
+      "data_mode": "synthetic"
+    }
+  ],
+  "history": [
+    {
+      "historical_id": "H-011",
+      "symptom": "接口超时",
+      "past_cause": "数据库 CPU 饱和",
+      "note": "当前没有数据库指标，不能确认此原因",
+      "evidence_id": "INC-003:history:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "history",
+      "observed_at": "2026-09-30T16:00:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "unavailable": {
+    "logs": "日志查询服务超时；本次调查无法获取日志",
+    "traces": "当前时间窗口缺少链路样本"
+  }
+}

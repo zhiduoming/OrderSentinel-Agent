@@ -1,0 +1,152 @@
+{
+  "case_id": "INC-001",
+  "title": "提交订单错误率升高，新旧实例表现不同",
+  "service": "order-service",
+  "environment": "demo",
+  "alert": {
+    "started_at": "2026-09-28T14:03:00+08:00",
+    "description": "提交订单错误率升高，新旧实例表现不同",
+    "severity": "P1"
+  },
+  "data_mode": "synthetic",
+  "metrics": [
+    {
+      "window": "14:03–14:08",
+      "version": "v2.4.1",
+      "error_rate": 0.18,
+      "p95_ms": 4200,
+      "pool_active": 5,
+      "pool_max": 5,
+      "pool_pending": 83,
+      "evidence_id": "INC-001:metrics:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "window": "14:03–14:08",
+      "version": "v2.4.0",
+      "error_rate": 0.005,
+      "p95_ms": 210,
+      "pool_active": 12,
+      "pool_max": 30,
+      "pool_pending": 0,
+      "evidence_id": "INC-001:metrics:2",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "service": "orders-db",
+      "window": "14:03–14:08",
+      "cpu_percent": 24,
+      "query_p95_ms": 12,
+      "connections_used_percent": 18,
+      "request_volume_change_percent": 2,
+      "evidence_id": "INC-001:metrics:3",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "logs": [
+    {
+      "version": "v2.4.1",
+      "message": "SQLTransientConnectionException: HikariPool connection unavailable, timed out after 3000ms",
+      "trace_id": "t-1001",
+      "evidence_id": "INC-001:logs:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "logs",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "version": "v2.4.0",
+      "message": "POST /orders 201 in 194ms",
+      "evidence_id": "INC-001:logs:2",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "logs",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "version": "v2.4.1",
+      "message": "pool config maximumPoolSize=5; previous approved value=30",
+      "evidence_id": "INC-001:logs:3",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "logs",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "traces": [
+    {
+      "trace_id": "t-1001",
+      "spans": [
+        {
+          "name": "POST /orders",
+          "duration_ms": 3104,
+          "status": "error"
+        },
+        {
+          "name": "inventory.reserve",
+          "duration_ms": 24,
+          "status": "ok"
+        },
+        {
+          "name": "db.acquire_connection",
+          "duration_ms": 3000,
+          "status": "timeout"
+        }
+      ],
+      "evidence_id": "INC-001:traces:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "traces",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "deployments": [
+    {
+      "observed_at": "2026-09-28T14:00:00+08:00",
+      "version": "v2.4.1",
+      "previous_version": "v2.4.0",
+      "change": {
+        "maximumPoolSize": {
+          "before": 30,
+          "after": 5
+        }
+      },
+      "commit": "demo-a01",
+      "approved_config": 30,
+      "evidence_id": "INC-001:deployments:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "deployments",
+      "data_mode": "synthetic"
+    }
+  ],
+  "history": [
+    {
+      "historical_id": "H-011",
+      "symptom": "连接获取超时",
+      "past_cause": "数据库 CPU 饱和",
+      "note": "历史故障必须结合当前数据库指标验证，不能直接复用原因",
+      "evidence_id": "INC-001:history:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "history",
+      "observed_at": "2026-09-28T14:03:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ]
+}

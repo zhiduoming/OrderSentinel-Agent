@@ -1,0 +1,157 @@
+{
+  "case_id": "INC-002",
+  "title": "订单接口变慢，近期有版本发布",
+  "service": "order-service",
+  "environment": "demo",
+  "alert": {
+    "started_at": "2026-09-29T10:15:00+08:00",
+    "description": "订单接口变慢，近期有版本发布",
+    "severity": "P1"
+  },
+  "data_mode": "synthetic",
+  "metrics": [
+    {
+      "version": "v2.4.2",
+      "p95_ms": 5200,
+      "error_rate": 0.12,
+      "pool_pending": 0,
+      "evidence_id": "INC-002:metrics:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "version": "v2.4.1",
+      "p95_ms": 5100,
+      "error_rate": 0.11,
+      "pool_pending": 0,
+      "evidence_id": "INC-002:metrics:2",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "service": "inventory-service",
+      "p95_ms": 4900,
+      "error_rate": 0.23,
+      "queue_depth": 1100,
+      "evidence_id": "INC-002:metrics:3",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "service": "orders-db",
+      "query_p95_ms": 11,
+      "cpu_percent": 20,
+      "evidence_id": "INC-002:metrics:4",
+      "environment": "demo",
+      "source": "metrics",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "logs": [
+    {
+      "message": "inventory.reserve timeout after 4000ms",
+      "trace_id": "t-2001",
+      "evidence_id": "INC-002:logs:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "logs",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    },
+    {
+      "message": "DB query completed in 8ms",
+      "trace_id": "t-2001",
+      "evidence_id": "INC-002:logs:2",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "logs",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "traces": [
+    {
+      "trace_id": "t-2001",
+      "spans": [
+        {
+          "name": "POST /orders",
+          "duration_ms": 4200,
+          "status": "error"
+        },
+        {
+          "name": "db.query",
+          "duration_ms": 8,
+          "status": "ok"
+        },
+        {
+          "name": "inventory.reserve",
+          "duration_ms": 4000,
+          "status": "timeout"
+        }
+      ],
+      "evidence_id": "INC-002:traces:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "traces",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ],
+  "deployments": [
+    {
+      "observed_at": "2026-09-29T10:00:00+08:00",
+      "version": "v2.4.2",
+      "previous_version": "v2.4.1",
+      "change": {
+        "log_format": {
+          "before": "text",
+          "after": "json"
+        }
+      },
+      "commit": "demo-a02",
+      "evidence_id": "INC-002:deployments:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "deployments",
+      "data_mode": "synthetic"
+    },
+    {
+      "observed_at": "2026-09-29T10:12:00+08:00",
+      "service": "inventory-service",
+      "change": {
+        "consumer_concurrency": {
+          "before": 16,
+          "after": 2
+        }
+      },
+      "commit": "demo-i01",
+      "evidence_id": "INC-002:deployments:2",
+      "environment": "demo",
+      "source": "deployments",
+      "data_mode": "synthetic"
+    }
+  ],
+  "history": [
+    {
+      "historical_id": "H-022",
+      "symptom": "订单接口超时",
+      "past_cause": "库存任务积压",
+      "note": "历史记录只能作为线索；核验当前 trace、库存指标和配置",
+      "evidence_id": "INC-002:history:1",
+      "service": "order-service",
+      "environment": "demo",
+      "source": "history",
+      "observed_at": "2026-09-29T10:15:00+08:00",
+      "data_mode": "synthetic"
+    }
+  ]
+}

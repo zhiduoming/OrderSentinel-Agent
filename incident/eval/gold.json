@@ -1,0 +1,9 @@
+{
+  "data_mode": "synthetic",
+  "cases": {
+    "INC-001": {"expected_verdict": "likely_cause", "expected_cause": "连接池上限降低导致连接获取超时", "required_support": ["INC-001:metrics:1", "INC-001:logs:3", "INC-001:deployments:1"], "important_counter": "数据库指标正常，不应直接套用历史数据库饱和案例"},
+    "INC-002": {"expected_verdict": "likely_cause", "expected_cause": "库存服务并发配置下降导致积压和下游超时", "required_support": ["INC-002:metrics:3", "INC-002:traces:1", "INC-002:deployments:2"], "important_counter": "新旧订单版本均异常，订单日志格式发布不能直接被判为根因"},
+    "INC-003": {"expected_verdict": "insufficient_evidence", "expected_cause": null, "required_support": ["INC-003:metrics:1"], "important_counter": "日志不可用、链路缺失，不应强行确认根因"}
+  },
+  "note": "这些是评测期望，不是模型运行结果。业务 MCP 不返回本文件。"
+}

@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-03",
+  "provider": "Bailian Token Plan",
+  "model": "qwen3.7-plus",
+  "craft_session_id": "261003-first-vine",
+  "case_id": "INC-001",
+  "investigation_id": "999e6d404faa43208af59db85a0357fd",
+  "report_saved": true,
+  "proposal_created": true,
+  "tools_called": [
+    "start_investigation",
+    "query_metrics",
+    "query_logs",
+    "query_traces",
+    "query_deployments",
+    "query_history",
+    "submit_report",
+    "propose_mitigation"
+  ],
+  "reports": [
+    {
+      "report_id": "3858f4e6099c41648a773fb3b1c96a98",
+      "report": {
+        "verdict": "likely_cause",
+        "summary": "当前证据更支持连接池配置回归：v2.4.1 将 maximumPoolSize 从审批值 30 降至 5，导致连接池饱和、请求排队超时。数据库本身运行正常，排除 DB 侧瓶颈。",
+        "impact": "新版本 v2.4.1 实例提交订单错误率升至 18%，p95 延迟从 210ms 飙升至 4200ms，83 个请求排队等待连接。旧版本 v2.4.0 实例不受影响。",
+        "recommended_next_step": "人工核对 maximumPoolSize 变更审批记录，评估是否需要回滚至审批值 30 以恢复连接池容量。",
+        "missing_information": [
+          "maximumPoolSize 变更的审批流程记录",
+          "commit demo-a01 的变更原因与审批人"
+        ],
+        "hypotheses": [
+          {
+            "description": "v2.4.1 将 HikariCP maximumPoolSize 从 30 降至 5（非审批值），导致连接池容量不足、请求排队超时",
+            "confidence": "high",
+            "supporting_evidence": [
+              "INC-001:metrics:1",
+              "INC-001:metrics:2",
+              "INC-001:logs:1",
+              "INC-001:logs:3",
+              "INC-001:traces:1",
+              "INC-001:deployments:1"
+            ],
+            "counter_evidence": []
+          },
+          {
+            "description": "数据库 CPU 饱和导致连接获取超时（历史案例 H-011 的原因）",
+            "confidence": "low",
+            "supporting_evidence": [
+              "INC-001:history:1"
+            ],
+            "counter_evidence": [
+              "INC-001:metrics:3"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "proposals": [
+    {
+      "proposal_id": "7e495f11f3f14e82a8da7253f4b5f353",
+      "status": "pending",
+      "proposal": {
+        "action": "restore_order_pool",
+        "name": "订单连接池恢复至 30",
+        "service": "order-service",
+        "change": {
+          "maximumPoolSize": 30
+        },
+        "risk": "增加数据库连接数，需要确认数据库连接容量。",
+        "rationale": "v2.4.1 将 maximumPoolSize 从审批值 30 降至 5，导致连接池满载（active=5, pending=83）、请求超时。指标、日志、链路和部署记录均支持此结论。恢复至审批值 30 可消除池瓶颈。DB 当前连接使用率仅 18%，有足够容量。",
+        "evidence_ids": [
+          "INC-001:deployments:1",
+          "INC-001:logs:1",
+          "INC-001:logs:3",
+          "INC-001:metrics:1",
+          "INC-001:metrics:2",
+          "INC-001:traces:1"
+        ],
+        "report_id": "3858f4e6099c41648a773fb3b1c96a98",
+        "mode": "local_simulation"
+      }
+    }
+  ],
+  "scope": "One synthetic case through Craft browser workflow; no approval, no production execution, not a model benchmark."
+}

@@ -1,0 +1,174 @@
+{
+  "model_used": false,
+  "report_origin": "scripted acceptance inputs",
+  "transport": "actual stdio MCP",
+  "checks": [
+    {
+      "scenario": "pool",
+      "case_id": "LIVE-9336da34874647ae93116841dfb57c11",
+      "baseline": {
+        "service": "order-service",
+        "phase": "healthy_baseline",
+        "requests": 120,
+        "errors": 0,
+        "error_rate": 0.0,
+        "p95_ms": 294.38,
+        "load_concurrency": 24,
+        "maximumPoolSize": 30,
+        "consumer_concurrency": 16,
+        "pool_waiting_peak": 0,
+        "inventory_waiting_peak": 8,
+        "observed_at": "2026-10-03T13:51:53.179015+00:00",
+        "evidence_id": "LIVE-9336da34874647ae93116841dfb57c11:metrics:1",
+        "environment": "local-lab",
+        "data_mode": "local_live",
+        "source": "request-driven-lab"
+      },
+      "result": {
+        "execution_status": "completed",
+        "mode": "local_live",
+        "operation_id": "2a38bac141dc4daa9efb3229da797a72",
+        "before": {
+          "requests": 120,
+          "errors": 98,
+          "error_rate": 0.8166666666666667,
+          "p95_ms": 371.51,
+          "load_concurrency": 24,
+          "maximumPoolSize": 5,
+          "consumer_concurrency": 16,
+          "pool_waiting_peak": 33,
+          "inventory_waiting_peak": 0,
+          "observed_at": "2026-10-03T13:51:54.225852+00:00"
+        },
+        "after": {
+          "requests": 120,
+          "errors": 0,
+          "error_rate": 0.0,
+          "p95_ms": 289.59,
+          "load_concurrency": 24,
+          "maximumPoolSize": 30,
+          "consumer_concurrency": 16,
+          "pool_waiting_peak": 0,
+          "inventory_waiting_peak": 8,
+          "observed_at": "2026-10-03T13:51:55.919510+00:00"
+        },
+        "recovered": true,
+        "verification": "improved",
+        "message": "实际本地请求验证；120 次请求、并发 24。结果来自测量，不代表生产 SLO。",
+        "configuration_applied": true
+      },
+      "replay_same_result": true
+    },
+    {
+      "scenario": "inventory",
+      "case_id": "LIVE-164e9c39e5ec4900b42b7c1602844388",
+      "baseline": {
+        "service": "order-service",
+        "phase": "healthy_baseline",
+        "requests": 120,
+        "errors": 0,
+        "error_rate": 0.0,
+        "p95_ms": 330.25,
+        "load_concurrency": 24,
+        "maximumPoolSize": 30,
+        "consumer_concurrency": 16,
+        "pool_waiting_peak": 0,
+        "inventory_waiting_peak": 8,
+        "observed_at": "2026-10-03T13:51:57.235540+00:00",
+        "evidence_id": "LIVE-164e9c39e5ec4900b42b7c1602844388:metrics:1",
+        "environment": "local-lab",
+        "data_mode": "local_live",
+        "source": "request-driven-lab"
+      },
+      "result": {
+        "execution_status": "completed",
+        "mode": "local_live",
+        "operation_id": "e977d4f8210a48a8941e7b68720f5051",
+        "before": {
+          "requests": 120,
+          "errors": 72,
+          "error_rate": 0.6,
+          "p95_ms": 388.21,
+          "load_concurrency": 24,
+          "maximumPoolSize": 30,
+          "consumer_concurrency": 2,
+          "pool_waiting_peak": 0,
+          "inventory_waiting_peak": 22,
+          "observed_at": "2026-10-03T13:51:59.074353+00:00"
+        },
+        "after": {
+          "requests": 120,
+          "errors": 0,
+          "error_rate": 0.0,
+          "p95_ms": 270.3,
+          "load_concurrency": 24,
+          "maximumPoolSize": 30,
+          "consumer_concurrency": 16,
+          "pool_waiting_peak": 0,
+          "inventory_waiting_peak": 8,
+          "observed_at": "2026-10-03T13:52:00.743741+00:00"
+        },
+        "recovered": true,
+        "verification": "improved",
+        "message": "实际本地请求验证；120 次请求、并发 24。结果来自测量，不代表生产 SLO。",
+        "configuration_applied": true
+      },
+      "replay_same_result": true
+    }
+  ],
+  "wrong_action": {
+    "execution_status": "completed",
+    "mode": "local_live",
+    "operation_id": "018278acc809414a8b0a4174cd422f03",
+    "before": {
+      "requests": 120,
+      "errors": 68,
+      "error_rate": 0.5666666666666667,
+      "p95_ms": 480.92,
+      "load_concurrency": 24,
+      "maximumPoolSize": 30,
+      "consumer_concurrency": 2,
+      "pool_waiting_peak": 0,
+      "inventory_waiting_peak": 22,
+      "observed_at": "2026-10-03T13:52:03.968819+00:00"
+    },
+    "after": {
+      "requests": 120,
+      "errors": 70,
+      "error_rate": 0.5833333333333334,
+      "p95_ms": 382.63,
+      "load_concurrency": 24,
+      "maximumPoolSize": 30,
+      "consumer_concurrency": 2,
+      "pool_waiting_peak": 0,
+      "inventory_waiting_peak": 22,
+      "observed_at": "2026-10-03T13:52:06.321568+00:00"
+    },
+    "recovered": false,
+    "verification": "no_improvement",
+    "message": "实际本地请求验证；120 次请求、并发 24。结果来自测量，不代表生产 SLO。",
+    "configuration_applied": true
+  },
+  "stale_proposal": {
+    "mode": "local_live",
+    "execution_status": "failed",
+    "verification": "stale_proposal",
+    "before": {
+      "requests": 120,
+      "errors": 92,
+      "error_rate": 0.7666666666666667,
+      "p95_ms": 383.46,
+      "load_concurrency": 24,
+      "maximumPoolSize": 5,
+      "consumer_concurrency": 16,
+      "pool_waiting_peak": 33,
+      "inventory_waiting_peak": 0,
+      "observed_at": "2026-10-03T13:52:08.592082+00:00"
+    },
+    "after": null,
+    "recovered": false,
+    "message": "Stale proposal: experiment/configuration or service lifetime changed; investigate again"
+  },
+  "status": "passed",
+  "ledger": "/var/folders/tw/7896b5xn61d7hmgspb6f_r8m0000gn/T/incident-lab-acceptance-mh6xlwfr/ledger.sqlite3"
+}
